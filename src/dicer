@@ -1,0 +1,22 @@
+#!/usr/bin/env janet
+
+(import dicer)
+
+(defn usage []
+ (print "dicer <DIE>\n
+         DIE examples:\n
+            2d6    -> sum of 2 times d6\n
+            5d20   -> sum of 5 times d20\n
+            8d20k6 -> roll a d20 8 times, keep the upper 6 rolls
+            <throws>d<dice size>[k<keep n rolls>]"))
+
+(defn main
+ [_ & args]
+ (when (not= 1 (length args))
+       (do (usage)
+           (os/exit 1)))
+ (->> (get args 0)
+      dicer/parse-die
+      dicer/calc-die
+      pp))
+
